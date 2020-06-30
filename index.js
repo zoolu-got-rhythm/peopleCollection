@@ -37,6 +37,7 @@ class PeopleModel {
 
     addPerson(name, age){
         // implement
+        this.people.push({name, age});
     }
 }
 
@@ -48,9 +49,10 @@ console.log(peopleModel.youngestPerson);
 
 // view code
 
-var chatContainerRef = document.getElementById("people-container");
+var peopleContainerRef = document.getElementById("people-container");
 
 function render(){
+    peopleContainerRef.innerHTML = "";
     peopleModel.getPeople.forEach((person) => {
         addPersonToDOM(person.name, person.age);
     });
@@ -79,7 +81,29 @@ function addPersonToDOM(name, age){
 
 
 
-    chatContainerRef.appendChild(personBoxNode);
+    peopleContainerRef.appendChild(personBoxNode);
 }
 
+var addButton = document.getElementById("add");
+
+var alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+function generateRandomName(){
+    var name = "";
+    var nameLength = Math.ceil(Math.random() * 15);
+    for(var i = 0; i < nameLength; i++){
+        var randCharIndex = Math.floor(Math.random() * alphabet.length);
+        name += alphabet.substring(randCharIndex, randCharIndex + 1);
+    }
+    return name;
+}
+
+
+// vague controller
+addButton.addEventListener("click", (e) => {
+    peopleModel.addPerson(generateRandomName(), Math.ceil(Math.random() * 100));
+    render();
+});
+
+// do initial render of model data
 render();
